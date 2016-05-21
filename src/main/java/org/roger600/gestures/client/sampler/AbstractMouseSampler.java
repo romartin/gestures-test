@@ -14,8 +14,6 @@ public abstract class AbstractMouseSampler {
         
     }
     
-    private static final int SAMPLER_PERIOD = 500;
-    
     private final Timer timer = new Timer() {
         @Override
         public void run() {
@@ -24,12 +22,17 @@ public abstract class AbstractMouseSampler {
     };
     
     private final Collection<SamplerFloatPoint> points = new LinkedList<>();
+    private int period = 500;
     private boolean takeSample = false;
     private SamplerCallback callback = null;
 
     protected abstract void doAddHandlers();
-    
-    public void start( final SamplerCallback callback ) {
+
+    public void setSamplerPeriod(final int period) {
+        this.period = period;
+    }
+
+    public void start(final SamplerCallback callback ) {
         
         this.callback = callback;
         
@@ -76,7 +79,7 @@ public abstract class AbstractMouseSampler {
     
     private void startTimer() {
         
-        timer.schedule( SAMPLER_PERIOD );
+        timer.schedule( period );
         
     }
 

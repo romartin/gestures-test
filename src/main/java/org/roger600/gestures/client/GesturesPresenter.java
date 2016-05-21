@@ -17,7 +17,7 @@ public class GesturesPresenter {
     private final Collection<SamplerTemplate> templates;
     private final Text resultText = new Text( EMPTY )
             .setFontFamily( "verdana" )
-            .setFontSize( 12 );
+            .setFontSize( 6 );
     
     private AreaSampler areaSampler;
     
@@ -46,6 +46,8 @@ public class GesturesPresenter {
                     resultText.setText( EMPTY );
                     
                 }
+                
+                layer.batch();
                 
             }
             

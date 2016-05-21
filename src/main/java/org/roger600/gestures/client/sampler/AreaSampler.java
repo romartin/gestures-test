@@ -5,10 +5,13 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.ait.tooling.nativetools.client.event.HandlerRegistrationManager;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 public class AreaSampler extends AbstractMouseSampler {
 
+    private static final int PERIOD = 200;
+    
     private final HandlerRegistrationManager registrationManager = new HandlerRegistrationManager();
     private final Layer layer;
     private final Rectangle area;
@@ -33,6 +36,8 @@ public class AreaSampler extends AbstractMouseSampler {
 
         layer.add( area );
 
+        setSamplerPeriod( PERIOD );
+        
         startListening();
     }
     
@@ -49,11 +54,15 @@ public class AreaSampler extends AbstractMouseSampler {
     }
     
     private void startListening() {
-
+        
+        log( "AreaSampler#startListening" );
+        
         startHandler =
                 area.addNodeMouseDownHandler(new NodeMouseDownHandler() {
                     @Override
                     public void onNodeMouseDown(final NodeMouseDownEvent event) {
+
+                        log( "AreaSampler#onNodeMouseDown" );
                         
                         startHandler.removeHandler();
                         
@@ -74,9 +83,11 @@ public class AreaSampler extends AbstractMouseSampler {
             
                 @Override
                 public void onNodeMouseMove( final NodeMouseMoveEvent event ) {
-    
+
                     final double x = event.getX();
                     final double y = event.getY();
+
+                    log( "AreaSampler#onNodeMouseMove" );
     
                     takeSample( x, y );
                     
@@ -93,7 +104,9 @@ public class AreaSampler extends AbstractMouseSampler {
     
                     final double x = event.getX();
                     final double y = event.getY();
-    
+
+                    log( "AreaSampler#onNodeMouseUp" );
+                    
                     onCompleteSample( x ,y );
                 }
                 
@@ -110,8 +123,14 @@ public class AreaSampler extends AbstractMouseSampler {
                                      final double y ) {
         super.onCompleteSample(x, y);
         
+        log( "AreaSampler#onCompleteSample" );
+
         removeHandlers();
         startListening();
+    }
+    
+    private void log( final String message ) {
+        GWT.log( message );
     }
 
 }

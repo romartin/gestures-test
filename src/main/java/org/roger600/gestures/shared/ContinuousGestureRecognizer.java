@@ -28,7 +28,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.roger600.gestures;
+package org.roger600.gestures.shared;
 
 import java.util.ArrayList;
 import java.util.Collections;

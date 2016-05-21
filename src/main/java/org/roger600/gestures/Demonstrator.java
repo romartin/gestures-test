@@ -32,6 +32,8 @@
 
 package org.roger600.gestures;
 
+import org.roger600.gestures.shared.ContinuousGestureRecognizer;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;

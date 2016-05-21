@@ -75,7 +75,8 @@ public class MyTest extends JFrame {
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 
-		List<ContinuousGestureRecognizer.Template> templates = generateDirectionalTemplates();
+		// List<ContinuousGestureRecognizer.Template> templates = generateDirectionalTemplates();
+		List<ContinuousGestureRecognizer.Template> templates = generateTestTemplates();
 		final UpdatePane updatePane = new UpdatePane(templates);
 		updatePane.setTemplates(templates);
 		updatePane.setBorder(new TitledBorder(new EtchedBorder(), STROKE_SET2));
@@ -345,41 +346,35 @@ public class MyTest extends JFrame {
 		}
 		
 	}
-	
-	private static List<ContinuousGestureRecognizer.Template> generateDirectionalTemplates() {
+
+	private static List<ContinuousGestureRecognizer.Template> generateTestTemplates() {
 		List<ContinuousGestureRecognizer.Template> directionalTemplates = new ArrayList<ContinuousGestureRecognizer.Template>();
-		List<ContinuousGestureRecognizer.Pt> nPoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		nPoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		nPoints.add(new ContinuousGestureRecognizer.Pt(0, -1));
-		directionalTemplates.add(new ContinuousGestureRecognizer.Template("North", nPoints));
-		List<ContinuousGestureRecognizer.Pt> sPoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		sPoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		sPoints.add(new ContinuousGestureRecognizer.Pt(0, 1));
-		directionalTemplates.add(new ContinuousGestureRecognizer.Template("South", sPoints));
-		List<ContinuousGestureRecognizer.Pt> wPoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		wPoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		wPoints.add(new ContinuousGestureRecognizer.Pt(-1, 0));
-		directionalTemplates.add(new ContinuousGestureRecognizer.Template("West", wPoints));
-		List<ContinuousGestureRecognizer.Pt> ePoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		ePoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		ePoints.add(new ContinuousGestureRecognizer.Pt(1, 0));
-		directionalTemplates.add(new ContinuousGestureRecognizer.Template("East", ePoints));
-		List<ContinuousGestureRecognizer.Pt> nwPoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		nwPoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		nwPoints.add(new ContinuousGestureRecognizer.Pt(-1, -1));
-		directionalTemplates.add(new ContinuousGestureRecognizer.Template("NorthWest", nwPoints));
-		List<ContinuousGestureRecognizer.Pt> nePoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		nePoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		nePoints.add(new ContinuousGestureRecognizer.Pt(1, -1));
-		directionalTemplates.add(new ContinuousGestureRecognizer.Template("NorthEast", nePoints));
-		List<ContinuousGestureRecognizer.Pt> swPoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		swPoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		swPoints.add(new ContinuousGestureRecognizer.Pt(-1, 1));
-		directionalTemplates.add(new ContinuousGestureRecognizer.Template("SouthWest", swPoints));
-		List<ContinuousGestureRecognizer.Pt> sePoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		sePoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		sePoints.add(new ContinuousGestureRecognizer.Pt(1, 1));
-		directionalTemplates.add(new ContinuousGestureRecognizer.Template("SouthEast", sePoints));
+		
+		List<ContinuousGestureRecognizer.Pt> squarePoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
+		squarePoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
+		squarePoints.add(new ContinuousGestureRecognizer.Pt(0, 10));
+		squarePoints.add(new ContinuousGestureRecognizer.Pt(10, 10));
+		squarePoints.add(new ContinuousGestureRecognizer.Pt(10, 0));
+		squarePoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
+		directionalTemplates.add(new ContinuousGestureRecognizer.Template("Square", squarePoints));
+
+
+		List<ContinuousGestureRecognizer.Pt> polygonPoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
+		polygonPoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
+		polygonPoints.add(new ContinuousGestureRecognizer.Pt(5, 5));
+		polygonPoints.add(new ContinuousGestureRecognizer.Pt(10, 0));
+		polygonPoints.add(new ContinuousGestureRecognizer.Pt(5, -5));
+		polygonPoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
+		directionalTemplates.add(new ContinuousGestureRecognizer.Template("Polygon", polygonPoints));
+
+		/*List<ContinuousGestureRecognizer.Pt> circlePoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
+		circlePoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
+		circlePoints.add(new ContinuousGestureRecognizer.Pt(1, 1));
+		circlePoints.add(new ContinuousGestureRecognizer.Pt(2, 0));
+		circlePoints.add(new ContinuousGestureRecognizer.Pt(1, -1));
+		circlePoints.add(new ContinuousGestureRecognizer.Pt(0, 0));
+		directionalTemplates.add(new ContinuousGestureRecognizer.Template("Circle", circlePoints));*/
+		
 		return directionalTemplates;
 	}
 	

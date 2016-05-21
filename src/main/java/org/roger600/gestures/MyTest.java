@@ -41,69 +41,23 @@ import java.awt.event.*;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.net.URI;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 
-/* Begin conditional compilation block: Only for JFrame */
-/* End conditional compilation block: Only for JFrame */
-/* Begin conditional compilation block: Only for JFrame */
-/* End conditional compilation block: Only for JFrame */
-/* Begin conditional compilation block: Only for JApplet */
-//import javax.swing.JApplet;
-/* End conditional compilation block: Only for JApplet */
-/* Begin conditional compilation block: Only for JFrame */
-/* End conditional compilation block: Only for JFrame */
-/* Begin conditional compilation block: Only for JFrame */
-/* End conditional compilation block: Only for JFrame */
-
-/**
- * Demonstrator to be used in conjunction with: ContinuousGestureRecognizer.java.
- * 
- * History:
- * Version 1.0 (August 12, 2011)   - Initial public release
- * Version 1.1 (September 6, 2011) - Added random stroke set, code simplified, better graphics.
- *                                 
- * 
- * Copyright (C) 2011 Per Ola Kristensson, University of St Andrews, UK.
- * 
- * Documentation is here: http://pokristensson.com/increc.html
- * 
- * If you use this code for your research then please remember to cite our paper:
- * 
- * Kristensson, P.O. and Denby, L.C. 2011. Continuous recognition and visualization
- * of pen strokes and touch-screen gestures. In Procceedings of the 8th Eurographics
- * Symposium on Sketch-Based Interfaces and Modeling (SBIM 2011). ACM Press: 95-102.
- * 
- * @author Per Ola Kristensson
- *
- */
 @SuppressWarnings("serial")
-/* Begin conditional compilation block: Only for JFrame */
-public class Demonstrator extends JFrame {
-/* End conditional compilation block: Only for JFrame */
-/* Begin conditional compilation block: Only for JApplet */
-//public class Demonstrator extends JApplet {
-/* End conditional compilation block: Only for JApplet */
-	
-	/* Begin conditional compilation block: Only for JFrame */
+public class MyTest extends JFrame {
+
 	private static final String WINDOW_TITLE = "Demonstrator of Continuous Recognition and Visualization of Pen Strokes and Touch-Screen Gestures";
-	/* End conditional compilation block: Only for JFrame */
-	private static final String STROKE_SET1 = "Randomly Generated Strokes";
 	private static final String STROKE_SET2 = "Eight Directional Straight Line Strokes";
-	private static final String STROKE_SET3 = "The Stroke Set in Fig. 5 in the Paper (p. 99, Proc. SBIM 2011)";
 	private static final String PROBABILITY_LABEL = "Probability";
 	
-	/* Begin conditional compilation block: Only for JFrame */
 	private WindowListener windowListener = new WindowAdapter() {
 		@Override
 		public void windowClosing(WindowEvent e) {
 			System.exit(0);
 		}
 	};
-	/* End conditional compilation block: Only for JFrame */
 	
 	/**
 	 * Constructs the demonstrator.
@@ -111,116 +65,30 @@ public class Demonstrator extends JFrame {
 	 * Creates a window and provides the system with two template sets for
 	 * the user to play with.
 	 */
-	public Demonstrator() {
-		/* Begin conditional compilation block: Only for JFrame */
+	public MyTest() {
+
 		addWindowListener(windowListener);
 		setTitle(WINDOW_TITLE);
-		/* End conditional compilation block: Only for JFrame */
+
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
-		List<ContinuousGestureRecognizer.Template> templates = generateTwoProgressiveRandomTemplates();
+
+		List<ContinuousGestureRecognizer.Template> templates = generateDirectionalTemplates();
 		final UpdatePane updatePane = new UpdatePane(templates);
-		updatePane.setBorder(new TitledBorder(new EtchedBorder(), STROKE_SET1));
+		updatePane.setTemplates(templates);
+		updatePane.setBorder(new TitledBorder(new EtchedBorder(), STROKE_SET2));
 		contentPane.add(updatePane, BorderLayout.SOUTH);
 		final InputPane inputPane = new InputPane(templates, updatePane);
 		inputPane.setPreferredSize(new Dimension(200, 200));
+		inputPane.setTemplates(templates);
 		contentPane.add(inputPane, BorderLayout.CENTER);
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menu1 = new JMenu("Gesture Set");
-		menuBar.add(menu1);
-		JMenuItem menuItem11 = new JRadioButtonMenuItem(STROKE_SET1, true);
-		menuItem11.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				List<ContinuousGestureRecognizer.Template> templates = generateTwoProgressiveRandomTemplates();
-				updatePane.setTemplates(templates);
-				inputPane.setTemplates(templates);
-				updatePane.setBorder(new TitledBorder(new EtchedBorder(), STROKE_SET1));
-			}
-		});
-		menu1.add(menuItem11);
-		JMenuItem menuItem12 = new JRadioButtonMenuItem(STROKE_SET2, false);
-		menuItem12.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				List<ContinuousGestureRecognizer.Template> templates = generateDirectionalTemplates();
-				updatePane.setTemplates(templates);
-				inputPane.setTemplates(templates);
-				updatePane.setBorder(new TitledBorder(new EtchedBorder(), STROKE_SET2));
-			}
-		});
-		menu1.add(menuItem12);
-		JMenuItem menuItem13 = new JRadioButtonMenuItem(STROKE_SET3, false);
-		menuItem13.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				List<ContinuousGestureRecognizer.Template> templates = generateFig5Templates();
-				updatePane.setTemplates(templates);
-				inputPane.setTemplates(templates);
-				updatePane.setBorder(new TitledBorder(new EtchedBorder(), STROKE_SET3));
-			}
-		});
-		menu1.add(menuItem13);
-		ButtonGroup buttonGroup = new ButtonGroup();
-		buttonGroup.add(menuItem11);
-		buttonGroup.add(menuItem12);
-		buttonGroup.add(menuItem13);
-		JMenu menu2 = new JMenu("Help");
-		menuBar.add(menu2);
-		JMenuItem menuItem21 = new JMenuItem("Read Research Paper (PDF)");
-		menuItem21.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Desktop.getDesktop().browse(new URI("http://pokristensson.com/pubs/KristenssonDenbySBIM2011.pdf"));
-				}
-				catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Cannot open URL", "Error", JOptionPane.ERROR_MESSAGE, null);
-				}
-			}
-		});
-		menu2.add(menuItem21);
-		JMenuItem menuItem22 = new JMenuItem("About Demonstrator");
-		menuItem22.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ImageIcon icon = null;
-				try {
-					icon = new ImageIcon(new URL("http://www.st-andrews.ac.uk/media/crest.gif"));
-				}
-				catch (Exception ex) {
-				}
-				String msg = 
-					"Demonstrator\n" +
-					"Version 1.1\n" +
-					"Copyright (C) 2011 Per Ola Kristensson, University of St Andrews, UK\n" +
-					"\n" +
-					"Written by Per Ola Kristensson\n" +
-					"<pok@st-andrews.ac.uk>\n" +
-					"School of Computer Science\n" +
-					"University of St Andrews\n" +
-					"\n" +
-					"Reference:\n" +
-					"Kristensson, P.O. and Denby, L.C. 2011. Continuous\n" +
-					"recognition and visualization of pen strokes and\n" +
-					"touch-screen gestures. In Proceedings of the 8th\n" +
-					"Eurographics Symposium on Sketch-Based Interfaces\n" +
-					"and Modeling (SBIM 2011). ACM Press: 95-102.\n" +
-					"\n";
-				JOptionPane.showMessageDialog(null, msg, "About Demonstrator", JOptionPane.INFORMATION_MESSAGE, icon);
-			}
-		});
-		menu2.add(menuItem22);
-		setJMenuBar(menuBar);
-		/* Begin conditional compilation block: Only for JFrame */
+
 		pack();
 		setLocationByPlatform(true);
-		/* End conditional compilation block: Only for JFrame */
 		setVisible(true);
 	}
 
 		
-	/* Begin conditional compilation block: Only for JFrame */
 	/**
 	 * Creates the demonstrator.
 	 * 
@@ -236,24 +104,11 @@ public class Demonstrator extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new Demonstrator();
+				new MyTest();
 			}
 		});
 	}
-	/* End conditional compilation block: Only for JFrame */
-	
-	/* Begin conditional compilation block: Only for JApplet */
-//	@Override
-//	public void init() {
-//		EventQueue.invokeLater(new Runnable() {
-//			@Override
-//			public void run() {
-//				new Demonstrator();
-//			}
-//		});
-//	}
-	/* End conditional compilation block: Only for JApplet */
-	
+
 	/**
 	 * This class shows recognition updates for all templates registered.
 	 * 
@@ -489,34 +344,6 @@ public class Demonstrator extends JFrame {
 		
 	}
 	
-	private static List<ContinuousGestureRecognizer.Template> generateTwoProgressiveRandomTemplates() {
-		List<ContinuousGestureRecognizer.Template> templates = new ArrayList<ContinuousGestureRecognizer.Template>();
-		for (int i = 1; i < 9; i++) {
-			if (i < 3) {
-				templates.add(generateRandomTemplate(null, "Random " + Integer.toString(i), 2));
-			}
-			else {
-				templates.add(generateRandomTemplate(templates.get(i - 3).pts, "Random " + Integer.toString(i), 1));
-			}
-		}
-		return templates;
-	}
-	
-	private static ContinuousGestureRecognizer.Template generateRandomTemplate(List<ContinuousGestureRecognizer.Pt> base, String id, int maxPoints) {
-		List<ContinuousGestureRecognizer.Pt> points = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		if (base != null) {
-			for (ContinuousGestureRecognizer.Pt pt : base) {
-				points.add(new ContinuousGestureRecognizer.Pt(pt.x, pt.y));
-			}
-		}
-		for (int i = 0; i < maxPoints; i++) {
-			int x = -500 + (int)Math.round(Math.random() * 1000.0d);
-			int y = -500 + (int)Math.round(Math.random() * 1000.0d);
-			points.add(new ContinuousGestureRecognizer.Pt(x, y));
-		}
-		return new ContinuousGestureRecognizer.Template(id, points);
-	}
-
 	private static List<ContinuousGestureRecognizer.Template> generateDirectionalTemplates() {
 		List<ContinuousGestureRecognizer.Template> directionalTemplates = new ArrayList<ContinuousGestureRecognizer.Template>();
 		List<ContinuousGestureRecognizer.Pt> nPoints = new ArrayList<ContinuousGestureRecognizer.Pt>();
@@ -554,29 +381,4 @@ public class Demonstrator extends JFrame {
 		return directionalTemplates;
 	}
 	
-	private static List<ContinuousGestureRecognizer.Template> generateFig5Templates() {
-		List<ContinuousGestureRecognizer.Template> fig5Templates = new ArrayList<ContinuousGestureRecognizer.Template>();
-		List<ContinuousGestureRecognizer.Pt> t1Points = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		t1Points.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		t1Points.add(new ContinuousGestureRecognizer.Pt(0, 1));
-		fig5Templates.add(new ContinuousGestureRecognizer.Template("Template 1", t1Points));
-		List<ContinuousGestureRecognizer.Pt> t2Points = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		t2Points.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		t2Points.add(new ContinuousGestureRecognizer.Pt(0, 1));
-		t2Points.add(new ContinuousGestureRecognizer.Pt(1, 1));
-		fig5Templates.add(new ContinuousGestureRecognizer.Template("Template 2", t2Points));
-		List<ContinuousGestureRecognizer.Pt> t3Points = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		t3Points.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		t3Points.add(new ContinuousGestureRecognizer.Pt(0, 1));
-		t3Points.add(new ContinuousGestureRecognizer.Pt(-1, 1));
-		fig5Templates.add(new ContinuousGestureRecognizer.Template("Template 3", t3Points));
-		List<ContinuousGestureRecognizer.Pt> t4Points = new ArrayList<ContinuousGestureRecognizer.Pt>();
-		t4Points.add(new ContinuousGestureRecognizer.Pt(0, 0));
-		t4Points.add(new ContinuousGestureRecognizer.Pt(0, 1));
-		t4Points.add(new ContinuousGestureRecognizer.Pt(1, 1));
-		t4Points.add(new ContinuousGestureRecognizer.Pt(1, 2));
-		fig5Templates.add(new ContinuousGestureRecognizer.Template("Template 4", t4Points));
-		return fig5Templates;
-	}
-
 }

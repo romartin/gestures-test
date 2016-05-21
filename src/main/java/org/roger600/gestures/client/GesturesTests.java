@@ -5,17 +5,14 @@ import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
-import com.ait.lienzo.client.core.types.PathPartList;
-import com.ait.lienzo.client.core.types.Point2D;
-import com.ait.lienzo.client.core.types.Point2DArray;
-import com.ait.lienzo.client.core.types.Transform;
 import com.ait.lienzo.shared.core.types.ColorName;
-import com.ait.tooling.nativetools.client.collection.NFastArrayList;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
+import org.roger600.gestures.client.sampler.LienzoSampleTemplateBuilder;
+import org.roger600.gestures.client.sampler.MouseSampler;
+import org.roger600.gestures.client.sampler.SamplerUtils;
+import org.roger600.gestures.shared.SamplerFloatPoint;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
 public class GesturesTests extends FlowPanel {
 
@@ -23,6 +20,8 @@ public class GesturesTests extends FlowPanel {
     private MultiPath rectangle;
     private MultiPath circle;
     private MultiPath polygon;
+    
+    private final MouseSampler mouseSampler = new MouseSampler();
     
     public GesturesTests(Layer layer) {
         this.layer = layer;
@@ -56,97 +55,41 @@ public class GesturesTests extends FlowPanel {
         
     }
     
+    private void samplerTest() {
+        
+        mouseSampler.start(new Runnable() {
+            @Override
+            public void run() {
+                Collection<SamplerFloatPoint> samples = mouseSampler.getSamples();
+                SamplerUtils.logSamples( "Mouse Samples", samples );
+            }
+        });
+        
+    }
+    
     private void addButton( ) {
 
         Rectangle button = new Rectangle(50, 50).setFillColor(ColorName.RED).setX(500).setY(200);
         button.addNodeMouseClickHandler(new NodeMouseClickHandler() {
             @Override
             public void onNodeMouseClick(NodeMouseClickEvent event) {
-                log();
+                samplerTest();
             }
         });
         
         layer.add( button );
     }
-    
-    private void logPoints( String title, MultiPath multiPath ) {
-
-        NFastArrayList<PathPartList> paths = multiPath.getPathPartListArray();
-        
-        GWT.log("  ");
-        GWT.log("********" + title + "***********");
-        for ( PathPartList path : paths ) {
-            
-            Point2DArray points = path.getPoints();
-            
-            Collection<Point2D> pointsSet = points.getPoints();
-            // log( "******", pointsSet );
-            
-            Collection<Point2D> translated = translate( pointsSet );
-            log( "", translated );
-            
-        }
-        GWT.log("**********************************");
-        GWT.log("  ");
-
-    }
    
-    private Collection<Point2D> translate( Collection<Point2D> points ) {
-        
-        double mx = 0;
-        double my = 0;
-        
-        for ( Point2D point : points ) {
-            
-            double x = point.getX();
-            double y = point.getY();
-            
-            if ( x < 0 && x < mx ) {
-                mx = x;
-            }
-            
-            if ( y < 0 && y < my ) {
-                my = y;
-            }
-            
-        }
-        
-        if ( mx >= 0 && my >= 0 ) {
-            
-            return points;
-        }
-
-        mx *= -1;
-        my *= -1;
-
-        Collection<Point2D> result = new LinkedList<>();
-        for ( Point2D point : points ) {
-
-            double x = point.getX();
-            double y = point.getY();
-
-            result.add( new Point2D( x + mx, y + my ) );
-            
-        }
-
-        return result;
-        
-    }
     
     private void log() {
 
-        logPoints( "Rectangle", rectangle );
-        logPoints( "Circle", circle );
-        
-    }
-    
-    private void log( String pref, Collection<Point2D> p ) {
+        Collection<SamplerFloatPoint> rectangleSamples = LienzoSampleTemplateBuilder.build( rectangle );
+        SamplerUtils.logSamples( "Rectangle", rectangleSamples );
 
-        for ( Point2D point : p ) {
-            final double px = point.getX();
-            final double py = point.getY();
-            GWT.log( pref + "[" + px + ", " + py + "]");
-        }
+        Collection<SamplerFloatPoint> circleSamples = LienzoSampleTemplateBuilder.build( circle );
+        SamplerUtils.logSamples( "Circle", circleSamples );
         
     }
+   
+    
 }

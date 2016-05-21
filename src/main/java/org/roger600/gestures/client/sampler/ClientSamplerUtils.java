@@ -5,7 +5,7 @@ import org.roger600.gestures.shared.SamplerFloatPoint;
 
 import java.util.Collection;
 
-public class SamplerUtils {
+public class ClientSamplerUtils {
 
     public static void logSamples( final Collection<SamplerFloatPoint> points ) {
         logSamples( null, points );

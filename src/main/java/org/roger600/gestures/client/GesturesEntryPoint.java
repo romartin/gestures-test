@@ -11,7 +11,8 @@ public class GesturesEntryPoint implements EntryPoint {
     private FlowPanel mainPanel = new FlowPanel();
     private LienzoPanel panel = new LienzoPanel(1200, 900);
     private Layer layer = new Layer();
-    
+    private GesturesPresenter gesturesPresenter;
+
     @Override
     public void onModuleLoad() {
 
@@ -20,8 +21,9 @@ public class GesturesEntryPoint implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
-        GesturesTests tests = new GesturesTests(layer);
-        tests.test();
+        gesturesPresenter = new GesturesPresenter( layer, null );
+        gesturesPresenter.show( 50, 50, 300, 300 );
+        
         layer.draw();
         
     }

@@ -18,4 +18,10 @@ public class SamplerPoint {
     public int getY() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return " [" + x + ", " + y + "] " ;
+    }
+    
 }

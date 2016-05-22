@@ -57,6 +57,8 @@ public class AreaSampler extends AbstractMouseSampler {
         
         log( "AreaSampler#startListening" );
         
+        doStart();
+        
         startHandler =
                 area.addNodeMouseDownHandler(new NodeMouseDownHandler() {
                     @Override
@@ -66,12 +68,20 @@ public class AreaSampler extends AbstractMouseSampler {
                         
                         startHandler.removeHandler();
                         
+                        doStartSampling();
+                        
                         start( callback );
 
                     }
 
                 });
 
+    }
+    
+    protected void doStart() {
+    }
+    
+    protected void doStartSampling() {
     }
 
     @Override
@@ -130,7 +140,7 @@ public class AreaSampler extends AbstractMouseSampler {
     }
     
     private void log( final String message ) {
-        GWT.log( message );
+        // GWT.log( message );
     }
 
 }

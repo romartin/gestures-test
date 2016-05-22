@@ -28,6 +28,15 @@ public class DrawableAreaSampler extends AreaSampler {
     }
 
     @Override
+    protected void doStartSampling() {
+
+        super.doStartSampling();
+
+        removeLinePoints();
+
+    }
+
+    @Override
     protected void doTakeSample(final double x, 
                                 final double y) {
 
@@ -75,16 +84,19 @@ public class DrawableAreaSampler extends AreaSampler {
                                     final double y) {
         super.onCompleteSample(x, y);
         
-        removeLinePoints();
     }
 
     private void removeLinePoints() {
 
-        for ( final IPrimitive<?> samplePoint : samplePoints) {
-            samplePoint.removeFromParent();
+        if ( null != samplePoints && !samplePoints.isEmpty() ) {
+            
+            for ( final IPrimitive<?> samplePoint : samplePoints) {
+                samplePoint.removeFromParent();
+            }
+
+            samplePoints.clear();
         }
 
-        samplePoints.clear();
         
         lastPoint = null;
 

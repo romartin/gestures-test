@@ -35,9 +35,9 @@ public class DrawableSamplers {
             return new Arrow( 
                     new Point2D( x0, y0),
                     new Point2D( x1, y1),
-                    1,
-                    5,
-                    0,
+                    3,
+                    15,
+                    45,
                     45,
                     ArrowType.AT_END
             );

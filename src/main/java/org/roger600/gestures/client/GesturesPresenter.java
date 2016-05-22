@@ -34,9 +34,7 @@ public class GesturesPresenter {
                       final double width,
                       final double height ) {
         
-        // this.areaSampler = new AreaSampler( layer, x, y, width, height, callback );
-
-        this.areaSampler = new DrawableAreaSampler( layer, x, y, width, height, callback, DrawableSamplers.LINE_SAMPLER );
+        this.areaSampler = new DrawableAreaSampler( layer, x, y, width, height, callback, DrawableSamplers.ARROW_SAMPLER );
 
         layer.add( resultText
                 .setX( x + ( width / 2 ) )

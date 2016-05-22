@@ -1,13 +1,14 @@
 package org.roger600.gestures.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import org.roger600.gestures.shared.ContinuousGestureRecognizer;
-import org.roger600.gestures.shared.SamplerFloatPoint;
-import org.roger600.gestures.shared.SamplerTemplate;
+import org.roger600.gestures.client.sampler.Point2DProvider;
+import org.roger600.gestures.shared.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,6 +58,8 @@ public class GestureRecognizerPresenter implements IsWidget {
 
                     resultText.setText( "RESULT => " + id + " [" + prob + "]");
 
+                    GWT.log(" SAMPLE POINTS => " + samplePoints.toString() );
+
                 }
 
             }
@@ -86,20 +89,27 @@ public class GestureRecognizerPresenter implements IsWidget {
     } 
     
     private List<ContinuousGestureRecognizer.Pt> translate( final Collection<SamplerFloatPoint> points ) {
-        final List<ContinuousGestureRecognizer.Pt> result = new LinkedList<>();
-        
-        for ( final SamplerFloatPoint point : points ) {
+
+        if ( null != points && !points.isEmpty() ) {
             
-            final ContinuousGestureRecognizer.Pt p = 
-                    new ContinuousGestureRecognizer.Pt( 
-                            (int) point.getX(), 
-                            (int) point.getY() );
-            
-            result.add( p );
+            final List<ContinuousGestureRecognizer.Pt> result = new LinkedList<>();
+
+            for ( final SamplerFloatPoint point : points ) {
+
+                final ContinuousGestureRecognizer.Pt p =
+                        new ContinuousGestureRecognizer.Pt(
+                                (int) point.getX(),
+                                (int) point.getY() );
+
+                result.add( p );
+
+            }
+
+            return result;
             
         }
-        
-        return result;
+
+        return new ArrayList<>();
     }
     
     @Override

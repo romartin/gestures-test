@@ -21,7 +21,6 @@ public class GesturesEntryPoint implements EntryPoint {
     public void onModuleLoad() {
 
         RootPanel.get().add( mainPanel );
-        RootPanel.get().add( recognizerPresenter );
         
         gesturesPresenter = new GesturesPresenter( 500, 500, callback );
         gesturesPresenter.show( 50, 50, 300, 300 );
@@ -37,6 +36,9 @@ public class GesturesEntryPoint implements EntryPoint {
         return new ArrayList<SamplerTemplate>() {{
             add(SampleTemplateBuilder.RECTANGLE );
             add(SampleTemplateBuilder.CIRCLE );
+            add(SampleTemplateBuilder.PLUS );
+            add(SampleTemplateBuilder.MINUS );
+            add(SampleTemplateBuilder.XOR );
         }};
         
     }

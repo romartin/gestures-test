@@ -22,7 +22,7 @@ public class GestureRecognizerPresenter implements IsWidget {
 
     public GestureRecognizerPresenter(final Collection<SamplerTemplate> templates) {
         final List<ContinuousGestureRecognizer.Template> rt = getRecognizerTemplates( templates );
-        this.recognizer = new ContinuousGestureRecognizer( rt, 5 );
+        this.recognizer = new ContinuousGestureRecognizer( rt, 25 );
         this.mainPanel.add( resultText );
     }
 

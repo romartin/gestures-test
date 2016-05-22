@@ -43,6 +43,10 @@ public class GestureRecognizerPresenter implements IsWidget {
 
             final List<ContinuousGestureRecognizer.Pt> translated = translate( samplePoints );
 
+            GWT.log(" SAMPLE POINTS => " + translated.toString() );
+            
+            // SamplerUtils.printCode( samplePoints );
+
             List<ContinuousGestureRecognizer.Result> results = recognizer.recognize( translated );
 
             if (results == null) {
@@ -57,8 +61,6 @@ public class GestureRecognizerPresenter implements IsWidget {
                     final double prob = r.prob;
 
                     resultText.setText( "RESULT => " + id + " [" + prob + "]");
-
-                    GWT.log(" SAMPLE POINTS => " + samplePoints.toString() );
 
                 }
 

@@ -1,5 +1,7 @@
 package org.roger600.gestures.shared;
 
+import com.google.gwt.core.client.GWT;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -67,6 +69,16 @@ public class SamplerUtils {
         return result;
     }
     
-    
+    public static void printCode( final Collection<SamplerFloatPoint> samples ) {
+        
+        if ( null != samples && !samples.isEmpty() ) {
+            GWT.log(" new LinkedList<SamplerFloatPoint>() {{ ");
+            for ( final SamplerFloatPoint sample : samples ) {
+                GWT.log("   add( new SamplerFloatPoint( " + sample.getX() + ", " + sample.getY() + ") ); ");
+            }
+            GWT.log(" }} ");
+        }
+        
+    }
     
 }

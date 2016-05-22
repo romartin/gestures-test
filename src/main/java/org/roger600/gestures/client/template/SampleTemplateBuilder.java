@@ -1,90 +1,126 @@
 package org.roger600.gestures.client.template;
 
-import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.types.PathPartList;
-import com.ait.lienzo.client.core.types.Point2D;
-import com.ait.lienzo.client.core.types.Point2DArray;
-import com.ait.tooling.nativetools.client.collection.NFastArrayList;
-import org.roger600.gestures.client.sampler.Point2DProvider;
 import org.roger600.gestures.shared.SamplerFloatPoint;
 import org.roger600.gestures.shared.SamplerTemplate;
-import org.roger600.gestures.shared.SamplerUtils;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
 public class SampleTemplateBuilder {
-    
-    private static final double SIZE = 300;
-    
-    public static final SamplerTemplate RECTANGLE = new SampleTemplateBuilder( "Rectangle", "Rectangle" )
-            .build( new MultiPath().rect( 0, 0, SIZE, SIZE) );
 
-    public static final SamplerTemplate CIRCLE = new SampleTemplateBuilder( "Circle", "Circle" )
-            .build( new MultiPath().circle( SIZE / 2 ) );
+    public static final SamplerTemplate MINUS = new SamplerTemplate("Minus", "Minus", null,
+            new LinkedList<SamplerFloatPoint>() {{
+                add(new SamplerFloatPoint(3, 132));
+                add(new SamplerFloatPoint(11, 135));
+                add(new SamplerFloatPoint(37, 135));
+                add(new SamplerFloatPoint(43, 135));
+                add(new SamplerFloatPoint(59, 135));
+                add(new SamplerFloatPoint(87, 135));
+                add(new SamplerFloatPoint(108, 135));
+                add(new SamplerFloatPoint(124, 135));
+                add(new SamplerFloatPoint(139, 135));
+                add(new SamplerFloatPoint(153, 135));
+                add(new SamplerFloatPoint(170, 135));
+                add(new SamplerFloatPoint(196, 138));
+                add(new SamplerFloatPoint(211, 141));
+                add(new SamplerFloatPoint(218, 142));
+                add(new SamplerFloatPoint(240, 142));
+                add(new SamplerFloatPoint(260, 142));
+                add(new SamplerFloatPoint(266, 142));
+                add(new SamplerFloatPoint(289, 142));
+                add(new SamplerFloatPoint(291, 143));
+                add(new SamplerFloatPoint(292, 143));
+            }});
 
+    public static final SamplerTemplate CIRCLE = new SamplerTemplate("Circle", "Circle", null,
 
-    public static final SamplerTemplate MINUS = new SampleTemplateBuilder( "Minus", "Minus" )
-            .build( new MultiPath()
-                    .M( 0, ( SIZE / 2) )
-                    .L( SIZE, ( SIZE / 2) ) );
+            new LinkedList<SamplerFloatPoint>() {{
+                add(new SamplerFloatPoint(159, 48));
+                add(new SamplerFloatPoint(145, 48));
+                add(new SamplerFloatPoint(135, 48));
+                add(new SamplerFloatPoint(115, 48));
+                add(new SamplerFloatPoint(110, 48));
+                add(new SamplerFloatPoint(91, 52));
+                add(new SamplerFloatPoint(89, 54));
+                add(new SamplerFloatPoint(74, 68));
+                add(new SamplerFloatPoint(70, 74));
+                add(new SamplerFloatPoint(59, 89));
+                add(new SamplerFloatPoint(57, 94));
+                add(new SamplerFloatPoint(51, 116));
+                add(new SamplerFloatPoint(50, 131));
+                add(new SamplerFloatPoint(50, 148));
+                add(new SamplerFloatPoint(57, 167));
+                add(new SamplerFloatPoint(70, 181));
+                add(new SamplerFloatPoint(88, 194));
+                add(new SamplerFloatPoint(102, 205));
+                add(new SamplerFloatPoint(112, 213));
+                add(new SamplerFloatPoint(118, 218));
+                add(new SamplerFloatPoint(130, 226));
+                add(new SamplerFloatPoint(150, 234));
+                add(new SamplerFloatPoint(178, 235));
+                add(new SamplerFloatPoint(196, 235));
+                add(new SamplerFloatPoint(211, 226));
+                add(new SamplerFloatPoint(229, 209));
+                add(new SamplerFloatPoint(246, 185));
+                add(new SamplerFloatPoint(256, 167));
+                add(new SamplerFloatPoint(264, 149));
+                add(new SamplerFloatPoint(266, 132));
+                add(new SamplerFloatPoint(265, 106));
+                add(new SamplerFloatPoint(256, 90));
+                add(new SamplerFloatPoint(242, 75));
+                add(new SamplerFloatPoint(225, 62));
+                add(new SamplerFloatPoint(206, 53));
+                add(new SamplerFloatPoint(182, 46));
+                add(new SamplerFloatPoint(166, 42));
+                add(new SamplerFloatPoint(158, 42));
+                add(new SamplerFloatPoint(155, 41));
+            }});
 
-    public static final SamplerTemplate PLUS = new SampleTemplateBuilder( "Plus", "Plus" )
-            .build( new MultiPath()
-                    .M( 0, ( SIZE / 2) )
-                    .L( SIZE, ( SIZE / 2) )
-                    .M( ( SIZE / 2 ), 0 )
-                    .L( ( SIZE / 2), SIZE ) );
-
-    public static final SamplerTemplate XOR = new SampleTemplateBuilder( "XOR", "XOR" )
-            .build( new MultiPath()
-                    .M( 0, 0 )
-                    .L( SIZE, SIZE )
-                    .M( SIZE, 0 )
-                    .L( 0, SIZE ) );
-    
-    private final String id;
-    private final String name;
-
-    SampleTemplateBuilder(final String id, 
-                             final String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    private SamplerTemplate build( final MultiPath multiPath ) {
-        
-        final Collection<SamplerFloatPoint> samples = doBuild( multiPath );
-        
-        return new SamplerTemplate( id, name, multiPath, samples );
-        
-    }
-    
-    
-    static Collection<SamplerFloatPoint> doBuild(final MultiPath multiPath ) {
-
-        NFastArrayList<PathPartList> paths = multiPath.getPathPartListArray();
-
-        Collection<SamplerFloatPoint> result = new LinkedList<>();
-
-        for ( PathPartList path : paths ) {
-
-            Point2DArray points = path.getPoints();
-
-            Collection<Point2D> pointsSet = points.getPoints();
-
-            Collection<SamplerFloatPoint> translated = SamplerUtils.translateNegative( pointsSet, Point2DProvider.INSTANCE );
-
-            if (null != translated && !translated.isEmpty()) {
-
-                result.addAll( translated );
-
-            }
-
-        }
-
-        return result;
-        
-    }
-    
+    public static final SamplerTemplate RECTANGLE = new SamplerTemplate("Rectangle", "Rectangle", null,
+            new LinkedList<SamplerFloatPoint>() {{
+                add(new SamplerFloatPoint(55, 71));
+                add(new SamplerFloatPoint(55, 76));
+                add(new SamplerFloatPoint(55, 83));
+                add(new SamplerFloatPoint(55, 97));
+                add(new SamplerFloatPoint(54, 104));
+                add(new SamplerFloatPoint(53, 117));
+                add(new SamplerFloatPoint(53, 124));
+                add(new SamplerFloatPoint(52, 143));
+                add(new SamplerFloatPoint(52, 158));
+                add(new SamplerFloatPoint(52, 173));
+                add(new SamplerFloatPoint(52, 181));
+                add(new SamplerFloatPoint(57, 195));
+                add(new SamplerFloatPoint(67, 202));
+                add(new SamplerFloatPoint(84, 203));
+                add(new SamplerFloatPoint(101, 203));
+                add(new SamplerFloatPoint(120, 203));
+                add(new SamplerFloatPoint(127, 204));
+                add(new SamplerFloatPoint(136, 204));
+                add(new SamplerFloatPoint(156, 204));
+                add(new SamplerFloatPoint(185, 205));
+                add(new SamplerFloatPoint(209, 205));
+                add(new SamplerFloatPoint(220, 205));
+                add(new SamplerFloatPoint(221, 199));
+                add(new SamplerFloatPoint(221, 191));
+                add(new SamplerFloatPoint(221, 167));
+                add(new SamplerFloatPoint(220, 156));
+                add(new SamplerFloatPoint(217, 134));
+                add(new SamplerFloatPoint(215, 114));
+                add(new SamplerFloatPoint(215, 106));
+                add(new SamplerFloatPoint(215, 102));
+                add(new SamplerFloatPoint(215, 93));
+                add(new SamplerFloatPoint(215, 80));
+                add(new SamplerFloatPoint(214, 78));
+                add(new SamplerFloatPoint(207, 77));
+                add(new SamplerFloatPoint(197, 75));
+                add(new SamplerFloatPoint(184, 69));
+                add(new SamplerFloatPoint(163, 61));
+                add(new SamplerFloatPoint(142, 60));
+                add(new SamplerFloatPoint(124, 60));
+                add(new SamplerFloatPoint(99, 60));
+                add(new SamplerFloatPoint(91, 60));
+                add(new SamplerFloatPoint(79, 60));
+                add(new SamplerFloatPoint(73, 60));
+                add(new SamplerFloatPoint(67, 60));
+                add(new SamplerFloatPoint(58, 61));
+            }});
 }

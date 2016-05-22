@@ -15,17 +15,24 @@ import java.util.LinkedList;
 
 public class SampleTemplateBuilder {
     
+    private static final double SIZE = 300;
+    
+    public static final SamplerTemplate RECTANGLE = new SampleTemplateBuilder( "Rectangle", "Rectangle" )
+            .build( new MultiPath().rect( 0, 0, SIZE, SIZE) );
+
+    public static final SamplerTemplate CIRCLE = new SampleTemplateBuilder( "Rectangle", "Rectangle" )
+            .build( new MultiPath().circle( SIZE / 2 ) );
+
     private final String id;
     private final String name;
-    private MultiPath path;
 
-    public SampleTemplateBuilder(final String id, 
-                                 final String name) {
+    SampleTemplateBuilder(final String id, 
+                             final String name) {
         this.id = id;
         this.name = name;
     }
 
-    public SamplerTemplate build( final MultiPath multiPath ) {
+    private SamplerTemplate build( final MultiPath multiPath ) {
         
         final Collection<SamplerFloatPoint> samples = doBuild( multiPath );
         

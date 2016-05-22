@@ -3,9 +3,11 @@ package org.roger600.gestures.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.roger600.gestures.client.template.SampleTemplateBuilder;
 import org.roger600.gestures.shared.SamplerFloatPoint;
 import org.roger600.gestures.shared.SamplerTemplate;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class GesturesEntryPoint implements EntryPoint {
@@ -31,8 +33,12 @@ public class GesturesEntryPoint implements EntryPoint {
     }
     
     private Collection<SamplerTemplate> getTemplates() {
-        // TODO
-        return null;
+        
+        return new ArrayList<SamplerTemplate>() {{
+            add(SampleTemplateBuilder.RECTANGLE );
+            add(SampleTemplateBuilder.CIRCLE );
+        }};
+        
     }
     
     private final GesturesPresenter.Callback callback = new GesturesPresenter.Callback() {

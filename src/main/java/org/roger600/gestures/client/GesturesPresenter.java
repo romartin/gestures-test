@@ -2,6 +2,9 @@ package org.roger600.gestures.client;
 
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Text;
+import com.ait.lienzo.client.widget.LienzoPanel;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
 import org.roger600.gestures.client.sampler.AbstractMouseSampler;
 import org.roger600.gestures.client.sampler.AreaSampler;
 import org.roger600.gestures.client.sampler.draw.DrawableAreaSampler;
@@ -11,22 +14,39 @@ import org.roger600.gestures.shared.SamplerTemplate;
 
 import java.util.Collection;
 
-public class GesturesPresenter {
+public class GesturesPresenter implements IsWidget {
 
-    private final static String EMPTY = "N/A";
+    public interface Callback {
     
-    private final Layer layer;
+        void onComplete( Collection<SamplerFloatPoint> samples );
+        
+    }
+    
+    private final LienzoPanel panel;
+    private final Layer layer = new Layer();
     private final Collection<SamplerTemplate> templates;
-    private final Text resultText = new Text( EMPTY )
-            .setFontFamily( "verdana" )
-            .setFontSize( 6 );
     
     private AreaSampler areaSampler;
+    private final Callback presenterCallback;
     
-    public GesturesPresenter(final Layer layer, 
-                             final Collection<SamplerTemplate> templates) {
-        this.layer = layer;
+    public GesturesPresenter(final int width, 
+                             final int height,
+                             final Collection<SamplerTemplate> templates,
+                             final Callback presenterCallback) {
+        
+        this.panel = new LienzoPanel( width, height );
         this.templates = templates;
+        this.presenterCallback = presenterCallback;
+        initLayer();
+
+    }
+    
+    private void initLayer() {
+
+        layer.setTransformable(true);
+        panel.add(layer);
+        layer.draw();
+        
     }
     
     public void show( final double x, 
@@ -36,10 +56,6 @@ public class GesturesPresenter {
         
         this.areaSampler = new DrawableAreaSampler( layer, x, y, width, height, callback, DrawableSamplers.ARROW_SAMPLER );
 
-        layer.add( resultText
-                .setX( x + ( width / 2 ) )
-                .setY( y + width + 50 ) );
-        
     }
     
     private final AbstractMouseSampler.SamplerCallback callback = new AbstractMouseSampler.SamplerCallback() {
@@ -47,16 +63,7 @@ public class GesturesPresenter {
         @Override
         public void onComplete(final Collection<SamplerFloatPoint> samples) {
 
-            if ( null != samples ) {
-
-                resultText.setText( samples.toString() );
-
-            } else {
-
-                resultText.setText( EMPTY );
-
-            }
-
+            presenterCallback.onComplete( samples );
             layer.batch();
 
         }
@@ -65,7 +72,10 @@ public class GesturesPresenter {
     
     public void destroy() {
         areaSampler.destroy();
-        layer.remove( resultText );
     }
-    
+
+    @Override
+    public Widget asWidget() {
+        return panel;
+    }
 }

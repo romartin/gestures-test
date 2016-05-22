@@ -10,7 +10,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 
 public class AreaSampler extends AbstractMouseSampler {
 
-    private static final int PERIOD = 200;
+    private static final int PERIOD = 100;
     
     protected final Layer layer;
     protected final Rectangle area;

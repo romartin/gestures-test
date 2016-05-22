@@ -4,7 +4,8 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Text;
 import org.roger600.gestures.client.sampler.AbstractMouseSampler;
 import org.roger600.gestures.client.sampler.AreaSampler;
-import org.roger600.gestures.client.sampler.DrawableAreaSampler;
+import org.roger600.gestures.client.sampler.draw.DrawableAreaSampler;
+import org.roger600.gestures.client.sampler.draw.DrawableSamplers;
 import org.roger600.gestures.shared.SamplerFloatPoint;
 import org.roger600.gestures.shared.SamplerTemplate;
 
@@ -35,7 +36,7 @@ public class GesturesPresenter {
         
         // this.areaSampler = new AreaSampler( layer, x, y, width, height, callback );
 
-        this.areaSampler = new DrawableAreaSampler( layer, x, y, width, height, callback );
+        this.areaSampler = new DrawableAreaSampler( layer, x, y, width, height, callback, DrawableSamplers.LINE_SAMPLER );
 
         layer.add( resultText
                 .setX( x + ( width / 2 ) )

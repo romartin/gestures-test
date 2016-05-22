@@ -55,13 +55,34 @@ public class GestureRecognizerPresenter implements IsWidget {
 
             } else {
 
+                int candidate = 0;
+                double max = 0;
+                
+                int x = 0;
+                for (ContinuousGestureRecognizer.Result r : results) {
+                    if ( r.prob > max ) {
+                        candidate = x;
+                        max = r.prob;
+                    }
+                    x++;
+                }
+                
+                x = 0;
                 for (ContinuousGestureRecognizer.Result r : results) {
 
                     final String id = r.template.id;
                     final double prob = r.prob;
 
-                    resultText.setText( "RESULT => " + id + " [" + prob + "]");
-
+                    final boolean isTheCandidate = x == candidate;
+                    
+                    if ( isTheCandidate ) {
+                        resultText.setText( "RESULT => " + id + " [" + prob + "]");
+                    }
+                    
+                    final String prefix = x == candidate ? " **RESULT** " : " RESULT ";
+                    GWT.log( prefix + " => " + id + " [" + prob + "]");
+                    
+                    x++;
                 }
 
             }

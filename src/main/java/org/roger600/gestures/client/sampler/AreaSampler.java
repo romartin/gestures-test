@@ -12,9 +12,9 @@ public class AreaSampler extends AbstractMouseSampler {
 
     private static final int PERIOD = 200;
     
+    protected final Layer layer;
+    protected final Rectangle area;
     private final HandlerRegistrationManager registrationManager = new HandlerRegistrationManager();
-    private final Layer layer;
-    private final Rectangle area;
     private SamplerCallback callback;
     private HandlerRegistration startHandler = null;
     
@@ -66,7 +66,7 @@ public class AreaSampler extends AbstractMouseSampler {
                         
                         startHandler.removeHandler();
                         
-                        start(callback);
+                        start( callback );
 
                     }
 
@@ -113,7 +113,7 @@ public class AreaSampler extends AbstractMouseSampler {
             }));
         
     }
-    
+
     private void removeHandlers() {
         registrationManager.removeHandler();
     } 

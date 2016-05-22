@@ -4,6 +4,7 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Text;
 import org.roger600.gestures.client.sampler.AbstractMouseSampler;
 import org.roger600.gestures.client.sampler.AreaSampler;
+import org.roger600.gestures.client.sampler.DrawableAreaSampler;
 import org.roger600.gestures.shared.SamplerFloatPoint;
 import org.roger600.gestures.shared.SamplerTemplate;
 
@@ -32,31 +33,36 @@ public class GesturesPresenter {
                       final double width,
                       final double height ) {
         
-        this.areaSampler = new AreaSampler( layer, x, y, width, height, new AbstractMouseSampler.SamplerCallback() {
-            
-            @Override
-            public void onComplete(final Collection<SamplerFloatPoint> samples) {
-                
-                if ( null != samples ) {
+        // this.areaSampler = new AreaSampler( layer, x, y, width, height, callback );
 
-                    resultText.setText( samples.toString() );
-                    
-                } else {
-                    
-                    resultText.setText( EMPTY );
-                    
-                }
-                
-                layer.batch();
-                
-            }
-            
-        });
+        this.areaSampler = new DrawableAreaSampler( layer, x, y, width, height, callback );
 
         layer.add( resultText
                 .setX( x + ( width / 2 ) )
                 .setY( y + width + 50 ) );
+        
     }
+    
+    private final AbstractMouseSampler.SamplerCallback callback = new AbstractMouseSampler.SamplerCallback() {
+
+        @Override
+        public void onComplete(final Collection<SamplerFloatPoint> samples) {
+
+            if ( null != samples ) {
+
+                resultText.setText( samples.toString() );
+
+            } else {
+
+                resultText.setText( EMPTY );
+
+            }
+
+            layer.batch();
+
+        }
+
+    };
     
     public void destroy() {
         areaSampler.destroy();

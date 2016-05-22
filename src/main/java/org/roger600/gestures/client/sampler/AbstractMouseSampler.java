@@ -42,9 +42,9 @@ public abstract class AbstractMouseSampler {
         
         doAddHandlers();
     }
-    
-    protected void takeSample( final double x, 
-                             final double y ) {
+
+    protected void takeSample(final double x,
+                              final double y ) {
         
         if ( takeSample ) {
 
@@ -54,12 +54,18 @@ public abstract class AbstractMouseSampler {
 
             addSample( x, y );
 
+            doTakeSample( x, y );
+            
             startTimer();
             
         }
         
     }
-
+    
+    protected void doTakeSample(final double x,
+                              final double y) {
+    }
+    
     protected void onCompleteSample( final double x,
                                final double y ) {
         addSample( x, y );

@@ -20,23 +20,23 @@ public class SampleTemplateBuilder {
     public static final SamplerTemplate RECTANGLE = new SampleTemplateBuilder( "Rectangle", "Rectangle" )
             .build( new MultiPath().rect( 0, 0, SIZE, SIZE) );
 
-    public static final SamplerTemplate CIRCLE = new SampleTemplateBuilder( "Rectangle", "Rectangle" )
+    public static final SamplerTemplate CIRCLE = new SampleTemplateBuilder( "Circle", "Circle" )
             .build( new MultiPath().circle( SIZE / 2 ) );
 
 
-    public static final SamplerTemplate MINUS = new SampleTemplateBuilder( "Rectangle", "Rectangle" )
+    public static final SamplerTemplate MINUS = new SampleTemplateBuilder( "Minus", "Minus" )
             .build( new MultiPath()
                     .M( 0, ( SIZE / 2) )
                     .L( SIZE, ( SIZE / 2) ) );
 
-    public static final SamplerTemplate PLUS = new SampleTemplateBuilder( "Rectangle", "Rectangle" )
+    public static final SamplerTemplate PLUS = new SampleTemplateBuilder( "Plus", "Plus" )
             .build( new MultiPath()
                     .M( 0, ( SIZE / 2) )
                     .L( SIZE, ( SIZE / 2) )
                     .M( ( SIZE / 2 ), 0 )
                     .L( ( SIZE / 2), SIZE ) );
 
-    public static final SamplerTemplate XOR = new SampleTemplateBuilder( "Rectangle", "Rectangle" )
+    public static final SamplerTemplate XOR = new SampleTemplateBuilder( "XOR", "XOR" )
             .build( new MultiPath()
                     .M( 0, 0 )
                     .L( SIZE, SIZE )

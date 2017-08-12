@@ -1,8 +1,9 @@
 package org.roger600.gestures.client;
 
+import java.util.Collection;
+
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.widget.LienzoPanel;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import org.roger600.gestures.client.sampler.AbstractMouseSampler;
@@ -12,8 +13,6 @@ import org.roger600.gestures.client.sampler.draw.DrawableSamplers;
 import org.roger600.gestures.shared.SamplerFloatPoint;
 import org.roger600.gestures.shared.SamplerFloatPointProvider;
 import org.roger600.gestures.shared.SamplerUtils;
-
-import java.util.Collection;
 
 public class GesturesPresenter implements IsWidget {
 
@@ -56,7 +55,7 @@ public class GesturesPresenter implements IsWidget {
         
         this.x = x;
         this.y = y;
-        this.areaSampler = new DrawableAreaSampler( layer, x, y, width, height, callback, DrawableSamplers.ARROW_SAMPLER );
+        this.areaSampler = new DrawableAreaSampler( layer, x, y, width, height, callback, DrawableSamplers.POINT_SAMPLER );
 
     }
     

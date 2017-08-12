@@ -1,16 +1,19 @@
 package org.roger600.gestures.client.sampler.draw;
 
 import com.ait.lienzo.client.core.shape.Arrow;
+import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.IPrimitive;
 import com.ait.lienzo.client.core.shape.Line;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ArrowType;
+import com.ait.lienzo.shared.core.types.ColorName;
 
 public class DrawableSamplers {
     
     public static final DrawableSampler LINE_SAMPLER = new LineSampler();
+    public static final DrawableSampler POINT_SAMPLER = new PointSampler();
     public static final DrawableSampler ARROW_SAMPLER = new ArrowSampler();
-    
+
     private static class LineSampler implements DrawableSampler.DrawableDoubleSampler {
 
         @Override
@@ -21,6 +24,22 @@ public class DrawableSamplers {
             
             return new Line( x0, y0, x1, y1 );
             
+        }
+    }
+
+    private static class PointSampler implements DrawableSampler.DrawableDoubleSampler {
+
+        @Override
+        public IPrimitive<?> draw( final double x0,
+                                   final double y0,
+                                   final double x1,
+                                   final double y1 ) {
+
+            return new Circle(3)
+                    .setX(x1)
+                    .setY(y1)
+                    .setFillColor(ColorName.BLACK);
+
         }
     }
 

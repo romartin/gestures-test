@@ -1,17 +1,18 @@
 package org.roger600.gestures.client;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import org.roger600.gestures.client.sampler.Point2DProvider;
-import org.roger600.gestures.shared.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import org.roger600.gestures.shared.ContinuousGestureRecognizer;
+import org.roger600.gestures.shared.SamplerFloatPoint;
+import org.roger600.gestures.shared.SamplerTemplate;
 
 public class GestureRecognizerPresenter implements IsWidget {
 
@@ -43,7 +44,7 @@ public class GestureRecognizerPresenter implements IsWidget {
 
             final List<ContinuousGestureRecognizer.Pt> translated = translate( samplePoints );
 
-            GWT.log(" SAMPLE POINTS => " + translated.toString() );
+            GWT.log(" SAMPLE POINTS (#" + translated.size() + ") => " + translated.toString() );
             
             // SamplerUtils.printCode( samplePoints );
 

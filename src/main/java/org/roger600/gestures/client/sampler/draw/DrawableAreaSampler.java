@@ -1,12 +1,12 @@
 package org.roger600.gestures.client.sampler.draw;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.ait.lienzo.client.core.shape.IPrimitive;
 import com.ait.lienzo.client.core.shape.Layer;
 import org.roger600.gestures.client.sampler.AreaSampler;
 import org.roger600.gestures.shared.SamplerFloatPoint;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class DrawableAreaSampler extends AreaSampler {
 
@@ -73,18 +73,13 @@ public class DrawableAreaSampler extends AreaSampler {
     }
     
     protected void addSampleDrawable( final IPrimitive<?> sd ) {
+        sd.setListening(false);
         samplePoints.add( sd );
+        // TODO: Add into top/background layer?
         layer.add( sd );
         layer.batch();
     }
     
-
-    @Override
-    protected void onCompleteSample(final double x, 
-                                    final double y) {
-        super.onCompleteSample(x, y);
-        
-    }
 
     private void removeLinePoints() {
 

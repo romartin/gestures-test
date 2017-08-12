@@ -1,22 +1,26 @@
 package org.roger600.gestures.client.sampler;
 
-import com.ait.lienzo.client.core.event.*;
+import com.ait.lienzo.client.core.event.NodeMouseDownEvent;
+import com.ait.lienzo.client.core.event.NodeMouseDownHandler;
+import com.ait.lienzo.client.core.event.NodeMouseMoveEvent;
+import com.ait.lienzo.client.core.event.NodeMouseMoveHandler;
+import com.ait.lienzo.client.core.event.NodeMouseUpEvent;
+import com.ait.lienzo.client.core.event.NodeMouseUpHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.ait.tooling.nativetools.client.event.HandlerRegistrationManager;
-import com.google.gwt.event.shared.HandlerRegistration;
 
 public class AreaSampler extends AbstractMouseSampler {
 
-    private static final int PERIOD = 100;
+    private static final int PERIOD = 10;
     
     protected final Layer layer;
     protected final Rectangle area;
     private final HandlerRegistrationManager registrationManager = new HandlerRegistrationManager();
     private SamplerCallback callback;
-    private HandlerRegistration startHandler = null;
-    
+    private boolean listening;
+
     public AreaSampler(final Layer layer, 
                        final double x,
                        final double y,
@@ -26,6 +30,7 @@ public class AreaSampler extends AbstractMouseSampler {
         
         this.layer = layer;
         this.callback = callback;
+        this.listening = false;
 
         this.area = new Rectangle( width, height )
                         .setX( x )
@@ -44,10 +49,6 @@ public class AreaSampler extends AbstractMouseSampler {
         
         removeHandlers();
         
-        if ( null != startHandler ) {
-            startHandler.removeHandler();
-        }
-
         layer.remove( area );
         
     }
@@ -55,17 +56,13 @@ public class AreaSampler extends AbstractMouseSampler {
     private void startListening() {
         
         log( "AreaSampler#startListening" );
-        
-        doStart();
-        
-        startHandler =
+
+        registrationManager.register(
                 area.addNodeMouseDownHandler(new NodeMouseDownHandler() {
                     @Override
                     public void onNodeMouseDown(final NodeMouseDownEvent event) {
 
                         log( "AreaSampler#onNodeMouseDown" );
-                        
-                        startHandler.removeHandler();
                         
                         doStartSampling();
                         
@@ -73,55 +70,57 @@ public class AreaSampler extends AbstractMouseSampler {
 
                     }
 
-                });
+                }));
 
-    }
-    
-    protected void doStart() {
+        registrationManager.register(
+
+                area.addNodeMouseMoveHandler( new NodeMouseMoveHandler() {
+
+                    @Override
+                    public void onNodeMouseMove( final NodeMouseMoveEvent event ) {
+
+                        if (listening) {
+                            final double x = event.getX();
+                            final double y = event.getY();
+
+                            log( "AreaSampler#onNodeMouseMove" );
+
+                            takeSample( x, y );
+
+                        }
+
+                    }
+
+                }));
+
+        registrationManager.register(
+
+                area.addNodeMouseUpHandler(new NodeMouseUpHandler() {
+
+                    @Override
+                    public void onNodeMouseUp( final NodeMouseUpEvent event ) {
+
+                        if (listening) {
+
+                            final double x = event.getX();
+                            final double y = event.getY();
+
+                            log( "AreaSampler#onNodeMouseUp" );
+
+                            onCompleteSample( x ,y );
+
+                        }
+
+                    }
+
+                }));
+
     }
     
     protected void doStartSampling() {
+        listening = true;
     }
 
-    @Override
-    protected void doAddHandlers() {
-
-        registrationManager.register(
-                
-                area.addNodeMouseMoveHandler( new NodeMouseMoveHandler() {
-            
-                @Override
-                public void onNodeMouseMove( final NodeMouseMoveEvent event ) {
-
-                    final double x = event.getX();
-                    final double y = event.getY();
-
-                    log( "AreaSampler#onNodeMouseMove" );
-    
-                    takeSample( x, y );
-                    
-                }
-                
-            }));
-
-        registrationManager.register(
-            
-            area.addNodeMouseUpHandler(new NodeMouseUpHandler() {
-                
-                @Override
-                public void onNodeMouseUp( final NodeMouseUpEvent event ) {
-    
-                    final double x = event.getX();
-                    final double y = event.getY();
-
-                    log( "AreaSampler#onNodeMouseUp" );
-                    
-                    onCompleteSample( x ,y );
-                }
-                
-            }));
-        
-    }
 
     private void removeHandlers() {
         registrationManager.removeHandler();
@@ -134,8 +133,8 @@ public class AreaSampler extends AbstractMouseSampler {
         
         log( "AreaSampler#onCompleteSample" );
 
-        removeHandlers();
-        startListening();
+        listening = false;
+
     }
     
     private void log( final String message ) {

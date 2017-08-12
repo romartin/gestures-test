@@ -9,8 +9,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class RootSampler extends AbstractMouseSampler {
 
-    @Override
-    protected void doAddHandlers() {
+    public RootSampler() {
+        addHandlers();
+    }
+
+    private void addHandlers() {
 
         final HandlerRegistration[] handlerRegs = new HandlerRegistration[ 2 ];
 

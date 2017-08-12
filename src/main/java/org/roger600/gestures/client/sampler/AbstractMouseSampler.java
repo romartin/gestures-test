@@ -1,10 +1,10 @@
 package org.roger600.gestures.client.sampler;
 
-import com.google.gwt.user.client.Timer;
-import org.roger600.gestures.shared.SamplerFloatPoint;
-
 import java.util.Collection;
 import java.util.LinkedList;
+
+import com.google.gwt.user.client.Timer;
+import org.roger600.gestures.shared.SamplerFloatPoint;
 
 public abstract class AbstractMouseSampler {
 
@@ -22,11 +22,9 @@ public abstract class AbstractMouseSampler {
     };
     
     private final Collection<SamplerFloatPoint> points = new LinkedList<>();
-    private int period = 500;
+    private int period = 100;
     private boolean takeSample = false;
     private SamplerCallback callback = null;
-
-    protected abstract void doAddHandlers();
 
     public void setSamplerPeriod(final int period) {
         this.period = period;
@@ -40,7 +38,6 @@ public abstract class AbstractMouseSampler {
         
         startTimer();
         
-        doAddHandlers();
     }
 
     protected void takeSample(final double x,
